@@ -4,6 +4,7 @@ const merge = require("webpack-merge")
 const MiniCssExtractPlugin = require("mini-css-extract-plugin")
 const PurifyCSSPlugin = require("purifycss-webpack")
 const OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin")
+const {CleanWebpackPlugin} = require("clean-webpack-plugin")
 
 exports.devServer = ({ host, port } = {}) => ({
   devServer: {
@@ -149,4 +150,8 @@ exports.loadESNext = ({ include = path.join(__dirname, "../", "src"), exclude } 
 
 exports.loadSourceMaps = ({ type }) => ({
   devtool: type,
+});
+
+exports.clean = () => ({
+  plugins: [new CleanWebpackPlugin()],
 });

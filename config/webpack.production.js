@@ -18,4 +18,6 @@ module.exports = merge([
   parts.loadFonts(),
   //生成sourceMap
   parts.loadSourceMaps({type: "source-map"}),
+  //构建时清理目录
+  parts.clean(),
 ])
