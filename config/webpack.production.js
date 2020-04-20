@@ -9,12 +9,12 @@ module.exports = merge([
       filename: "[name].[chunkhash:4].js",
     },
   },
+  //移除无用css
+  // parts.purifyCSS(),
   //抽离css
   parts.extractCSS({
     use: [parts.autoprefix()],
   }),
-  //移除无用css
-  parts.purifyCSS(),
   //加载图片
   parts.loadImages({
     options: {
@@ -24,7 +24,9 @@ module.exports = merge([
   //加载字体
   parts.loadFonts(),
   //生成sourceMap
-  parts.loadSourceMaps({type: "source-map"}),
+  parts.loadSourceMaps({
+    type: "source-map"
+  }),
   //构建时清理目录
   parts.clean(),
 ])

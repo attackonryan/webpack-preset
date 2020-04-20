@@ -1,12 +1,19 @@
 const glob = require("glob")
 const path = require("path")
 const merge = require("webpack-merge")
+
+const HtmlWebpackPlugin = require("html-webpack-plugin")
 const MiniCssExtractPlugin = require("mini-css-extract-plugin")
 const PurifyCSSPlugin = require("purifycss-webpack")
 const OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin")
-const {CleanWebpackPlugin} = require("clean-webpack-plugin")
+const {
+  CleanWebpackPlugin
+} = require("clean-webpack-plugin")
 
-exports.devServer = ({ host, port } = {}) => ({
+exports.devServer = ({
+  host,
+  port
+} = {}) => ({
   devServer: {
     stats: "errors-only",
     host, // 默认为 `localhost`
@@ -15,10 +22,20 @@ exports.devServer = ({ host, port } = {}) => ({
   },
 })
 
-exports.loadCSS = ({ include, exclude } = {}) => ({
+exports.HTMLTemplate = (config) => ({
+  plugins: [
+    new HtmlWebpackPlugin(merge({
+      title: "webpack-preset",
+    },config)),
+  ],
+})
+
+exports.loadCSS = ({
+  include,
+  exclude
+} = {}) => ({
   module: {
-    rules: [
-      {
+    rules: [{
         test: /\.css$/,
         include,
         exclude,
@@ -28,8 +45,8 @@ exports.loadCSS = ({ include, exclude } = {}) => ({
       {
         test: /\.scss$/,
         use: [
-          "style-loader", 
-          "css-loader", 
+          "style-loader",
+          "css-loader",
           "sass-loader",
           {
             loader: "postcss-loader",
@@ -46,25 +63,26 @@ exports.loadCSS = ({ include, exclude } = {}) => ({
   },
 })
 
-exports.extractCSS = ({ include, exclude, use = [] } = {}) => {
+exports.extractCSS = ({
+  include,
+  exclude,
+  use = []
+} = {}) => {
   const plugin = new MiniCssExtractPlugin({
     filename: "[name].[contenthash:4].css",
   })
-
   return {
     module: {
-      rules: [
-        {
-          test: /\.(s?)css$/,
-          include,
-          exclude,
-          use: [
-            MiniCssExtractPlugin.loader,
-            "css-loader", 
-            "sass-loader"
-          ].concat(use),
-        },
-      ],
+      rules: [{
+        test: /\.(s?)css$/,
+        include,
+        exclude,
+        use: [
+          MiniCssExtractPlugin.loader,
+          "css-loader",
+          "sass-loader"
+        ].concat(use),
+      }, ],
     },
     plugins: [plugin],
   }
@@ -88,32 +106,31 @@ exports.autoprefix = () => ({
   },
 })
 
-exports.loadImages = ({ include, exclude, options } = {}) => ({
+exports.loadImages = ({
+  include,
+  exclude,
+  options
+} = {}) => ({
   module: {
-    rules: [
-      {
+    rules: [{
         test: /\.(png|jpg)$/,
         include,
         exclude,
-        use: [
-          {
-            loader: "url-loader",
-            options: merge({
-              name: "./images/[name].[hash].[ext]"
-            },options),
-          },
-        ]
+        use: [{
+          loader: "url-loader",
+          options: merge({
+            name: "./images/[name].[hash].[ext]"
+          }, options),
+        }, ]
       },
       {
         test: /\.svg$/,
-        use: [
-          {
-            loader: "file-loader",
-            options: {
-              name: "./images/[name].[hash].[ext]"
-            }
+        use: [{
+          loader: "file-loader",
+          options: {
+            name: "./images/[name].[hash].[ext]"
           }
-        ],
+        }],
       },
     ],
   },
@@ -121,34 +138,35 @@ exports.loadImages = ({ include, exclude, options } = {}) => ({
 
 exports.loadFonts = () => ({
   module: {
-    rules: [
-      {
-        test: /\.(ttf|eot|woff|woff2)$/,
-        use: {
-          loader: "file-loader",
-          options: {
-            name: "./fonts/[name].[ext]",
-          },
+    rules: [{
+      test: /\.(ttf|eot|woff|woff2)$/,
+      use: {
+        loader: "file-loader",
+        options: {
+          name: "./fonts/[name].[ext]",
         },
-      }
-    ]
+      },
+    }]
   }
 })
 
-exports.loadESNext = ({ include = path.join(__dirname, "../", "src"), exclude } = {}) => ({
+exports.loadESNext = ({
+  include = path.join(__dirname, "../", "src"),
+  exclude
+} = {}) => ({
   module: {
-    rules: [
-      {
-        test: /\.js$/,
-        include,
-        exclude,
-        use: "babel-loader",
-      },
-    ],
+    rules: [{
+      test: /\.js$/,
+      include,
+      exclude,
+      use: "babel-loader",
+    }, ],
   },
 });
 
-exports.loadSourceMaps = ({ type }) => ({
+exports.loadSourceMaps = ({
+  type
+}) => ({
   devtool: type,
 });
 

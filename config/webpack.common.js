@@ -1,15 +1,11 @@
 const merge = require("webpack-merge")
 const parts = require("./webpack.parts")
-const HtmlWebpackPlugin = require("html-webpack-plugin")
-
+const path = require("path")
 module.exports = merge([
-  {
-    plugins: [
-      new HtmlWebpackPlugin({
-        title: "webpack-preset",
-      }),
-    ],
-  },
+  //使用html模板插件
+  parts.HTMLTemplate({
+    template: path.resolve(__dirname,"../","public/template.html"),
+  }),
   //使用babel
   parts.loadESNext(),
 ])
