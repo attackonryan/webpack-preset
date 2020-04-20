@@ -1,3 +1,1 @@
-export default ()=>{
-  console.log('hello webpack!')
-}
+export default "hello webpack"
