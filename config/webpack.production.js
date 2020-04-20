@@ -16,4 +16,6 @@ module.exports = merge([
   }),
   //加载字体
   parts.loadFonts(),
+  //生成sourceMap
+  parts.loadSourceMaps({type: "source-map"}),
 ])
