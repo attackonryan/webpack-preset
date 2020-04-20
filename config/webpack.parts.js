@@ -146,3 +146,7 @@ exports.loadESNext = ({ include = path.join(__dirname, "../", "src"), exclude } 
     ],
   },
 });
+
+exports.loadSourceMaps = ({ type }) => ({
+  devtool: type,
+});
