@@ -3,6 +3,7 @@ const path = require("path")
 const merge = require("webpack-merge")
 const MiniCssExtractPlugin = require("mini-css-extract-plugin")
 const PurifyCSSPlugin = require("purifycss-webpack")
+const OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin")
 
 exports.devServer = ({ host, port } = {}) => ({
   devServer: {
@@ -69,11 +70,14 @@ exports.extractCSS = ({ include, exclude, use = [] } = {}) => {
 }
 
 exports.purifyCSS = () => ({
-  plugins: [new PurifyCSSPlugin({
-    paths: glob.sync(`${path.join(__dirname, "../", "src")}/**/*.js`, {
-      nodir: true
-    })
-  })],
+  plugins: [
+    new PurifyCSSPlugin({
+      paths: glob.sync(`${path.join(__dirname, "../", "src")}/**/*.js`, {
+        nodir: true
+      })
+    }),
+    new OptimizeCSSAssetsPlugin({})
+  ],
 })
 
 exports.autoprefix = () => ({
