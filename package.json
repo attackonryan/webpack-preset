@@ -11,7 +11,7 @@
     "webpack",
     "preset"
   ],
-  "author": "cyan lore",
+  "author": "Siyuan Liu",
   "license": "ISC",
   "devDependencies": {
     "@babel/core": "^7.9.0",
